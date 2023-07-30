@@ -1,0 +1,19 @@
+[11:14:35] [ServerMain/ERROR]: Failed to load properties from file: server.properties
+java.nio.file.NoSuchFileException: server.properties
+	at sun.nio.fs.UnixException.translateToIOException(UnixException.java:92) ~[?:?]
+	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106) ~[?:?]
+	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111) ~[?:?]
+	at sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:218) ~[?:?]
+	at java.nio.file.Files.newByteChannel(Files.java:380) ~[?:?]
+	at java.nio.file.Files.newByteChannel(Files.java:432) ~[?:?]
+	at java.nio.file.spi.FileSystemProvider.newInputStream(FileSystemProvider.java:422) ~[?:?]
+	at java.nio.file.Files.newInputStream(Files.java:160) ~[?:?]
+	at net.minecraft.server.dedicated.PropertyManager.b(PropertyManager.java:56) ~[spigot-1.20.1-R0.1-SNAPSHOT.jar:3814-Spigot-64b565e-c1279f7]
+	at net.minecraft.server.dedicated.DedicatedServerProperties.fromFile(DedicatedServerProperties.java:172) ~[spigot-1.20.1-R0.1-SNAPSHOT.jar:3814-Spigot-64b565e-c1279f7]
+	at net.minecraft.server.dedicated.DedicatedServerSettings.<init>(DedicatedServerSettings.java:19) ~[spigot-1.20.1-R0.1-SNAPSHOT.jar:3814-Spigot-64b565e-c1279f7]
+	at net.minecraft.server.Main.main(Main.java:131) ~[spigot-1.20.1-R0.1-SNAPSHOT.jar:3814-Spigot-64b565e-c1279f7]
+	at org.bukkit.craftbukkit.Main.main(Main.java:225) ~[spigot-1.20.1-R0.1-SNAPSHOT.jar:3814-Spigot-64b565e-c1279f7]
+	at org.bukkit.craftbukkit.bootstrap.Main.lambda$1(Main.java:60) ~[spigot-1.20.1.jar:?]
+	at java.lang.Thread.run(Thread.java:833) ~[?:?]
+[11:14:35] [ServerMain/WARN]: Failed to load eula.txt
+[11:14:35] [ServerMain/INFO]: You need to agree to the EULA in order to run the server. Go to eula.txt for more info.

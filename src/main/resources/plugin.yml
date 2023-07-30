@@ -1,0 +1,10 @@
+name: SkyStarModify
+version: '${project.version}'
+main: org.skystarmodify.SkyStarModify
+api-version: '1.20'
+depend:
+  - CommandAPI
+  - Essentials
+  - ItemUtils
+  - DiscordSRV
+  - BetterTeams

@@ -1,0 +1,8 @@
+org/skystarmodify/commands/buywarp.class
+org/skystarmodify/commands/use_skshop.class
+org/skystarmodify/commands/edit_skshop.class
+org/skystarmodify/Files.class
+org/skystarmodify/SkyStarModify.class
+org/skystarmodify/Chat.class
+org/skystarmodify/LangResource.class
+org/skystarmodify/LangResource$dict.class

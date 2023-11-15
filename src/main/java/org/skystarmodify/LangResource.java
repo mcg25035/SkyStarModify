@@ -11,14 +11,10 @@ public class LangResource {
     public class dict {
         public String wrapName;
         public String price;
-
-
         public String warpAlreadyExist;
         public String warpMoneyNotEnough;
         public String warpCreateSuccessfully;
         public String warpUnknownError;
-
-
         public String error;
         public String skShopHeader;
         public String skShopDetails;
@@ -30,7 +26,6 @@ public class LangResource {
         public String skShopUpstore;
         public String skUpstoreFsError;
         public String skShopItemName;
-        public String skUpstoreSinglePriceError;
         public String skShopTradeType;
         public String buy;
         public String sell;
@@ -51,11 +46,6 @@ public class LangResource {
         public String skShopTypeError;
         public String skShopItemNotEnoughError;
         public String skShopCmdArgError;
-        public String skPlayerOnlineTimeSystemTitle;
-        public String skYesterdayPlayersOnlineTimeData;
-        public String skTeam;
-        public String skTime;
-
     }
     public LangResource.dict lang = new LangResource.dict();
 

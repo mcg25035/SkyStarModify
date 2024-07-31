@@ -1,21 +1,37 @@
 package org.skystarmodify;
 
-import net.md_5.bungee.api.chat.*;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
-import org.itemutils.ItemUtils;
+
+import java.util.function.UnaryOperator;
 
 public class Chat {
-    public static BaseComponent[] createAsItemTag(ItemStack item){
-        TranslatableComponent component = new TranslatableComponent();
-        component.setTranslate(ItemUtils.getDescriptionID(item));
+    public static Component createAsItemTag(ItemStack item){
+        item = item.clone();
+        item.setAmount(1);
+        String translationKey = item.translationKey();
 
-        BaseComponent[] hoverEventCompoents = new BaseComponent[]{
-                new TextComponent(ItemUtils.ItemToData(item))
-        };
+        HoverEvent<HoverEvent.ShowItem> onHover = Bukkit.getServer().getItemFactory().asHoverEvent(
+                item,
+                UnaryOperator.identity()
+        );
 
-        ComponentBuilder builder = new ComponentBuilder();
-        return builder.append(component).event(new HoverEvent(HoverEvent.Action.SHOW_ITEM,hoverEventCompoents))
-                .append("").event((HoverEvent)null).create();
+        Component text;
+        if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
+            text = item.getItemMeta().displayName();
+        } else {
+            text = Component.translatable(translationKey);
+        }
 
+        assert text != null;
+        return Component.text()
+                .append(MiniMessage.miniMessage().deserialize("<gray>[</gray>"))
+                .append(text)
+                .append(MiniMessage.miniMessage().deserialize("<gray>]</gray>"))
+                .hoverEvent(onHover)
+                .build();
     }
 }

@@ -13,18 +13,21 @@ import github.scarsz.discordsrv.dependencies.jda.api.entities.MessageEmbed;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.objects.MessageFormat;
 import github.scarsz.discordsrv.util.DiscordUtil;
+import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.itemutils.ItemUtils;
-import org.skystarmodify.Chat;
-import org.skystarmodify.Files;
-import org.skystarmodify.LangResource;
-import org.skystarmodify.SkyStarModify;
+import org.skystarmodify.*;
+import org.skystarmodify.exceptions.ItemNotEnoughException;
+import org.skystarmodify.exceptions.MoneyNotEnoughException;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystemException;
 import java.time.Instant;
@@ -35,7 +38,16 @@ import java.util.Objects;
 public class use_skshop {
     private LangResource langRes;
     private File skshopData = Files.pluginFileConstruct("skshopData");
-    public void sendEmbed(String player,String type,String item,String singlePrice,String amount,String total){
+    public String getItemName(ItemStack item){
+        if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()){
+            return PlainTextComponentSerializer.plainText().serialize(item.getItemMeta().displayName());
+        }
+        return "%locale_item-"+item.getType()+"%";
+    }
+
+    public void sendEmbed(Player player, String type, String item, String singlePrice, String amount, String total){
+
+        item = PlaceholderAPI.setPlaceholders(player, item);
 
         String processedLang = langRes.lang.skShopTradeType.replace("§7","").replace(" : ","");
 
@@ -44,8 +56,8 @@ public class use_skshop {
         embed.setAuthorImageUrl("https://media.discordapp.net/attachments/909358727449149445/1106960556134518834/IMG_3048.png");
         embed.setFooterIconUrl("https://cdn.discordapp.com/avatars/492908862647697409/bf4ff10c052a338db04647dd23a70e62?size=1024");
         embed.setImageUrl("https://media.discordapp.net/attachments/959102610751770624/1123909634630111243/image.png");
-        embed.setTitle(langRes.lang.skShopDiscordContent.replace("%player_name%",player));
-        MessageEmbed.Field playerF = new MessageEmbed.Field(langRes.lang.player,player,true,true);
+        embed.setTitle(PlaceholderAPI.setPlaceholders(player, langRes.lang.skShopDiscordContent));
+        MessageEmbed.Field playerF = new MessageEmbed.Field(langRes.lang.player, player.getName(),true,true);
         MessageEmbed.Field typeF = new MessageEmbed.Field(processedLang,type,true,true);
         MessageEmbed.Field singlePriceF = new MessageEmbed.Field(
                 langRes.lang.singlePrice,singlePrice,true,true);
@@ -62,6 +74,7 @@ public class use_skshop {
         TextChannel target = DiscordUtil.getTextChannelById("1037708046736044132");
         DiscordUtil.queueMessage(target,discordMessage);
     }
+
     public use_skshop() throws FileSystemException {
 
         SkyStarModify ssm = (SkyStarModify) Bukkit.getServer().getPluginManager().getPlugin("SkyStarModify");
@@ -85,62 +98,26 @@ public class use_skshop {
                                 .withArguments(new IntegerArgument(langRes.lang.amount))
                                 .executes((sender,args)->{
                                     sender.sendMessage(langRes.lang.skShopHeader);
-                                    File itemDataFile = Files.fileResolve(skshopData,((String)args.get(0))+".json");
-                                    User essPlayer = ess.getUser((Player)sender);
-                                    BigDecimal userMoney = essPlayer.getMoney();
-                                    if (!itemDataFile.exists()){
-                                        sender.sendMessage(langRes.lang.skShopMessageType+langRes.lang.error);
-                                        sender.sendMessage(langRes.lang.skShopDetails+langRes.lang.skShopItemDNEError);
-                                        return;
-                                    }
+                                    User essPlayer = ess.getUser((Player) sender);
                                     try {
-                                        JsonObject itemData = Files.readFileToJson(itemDataFile);
-                                        if (itemData.get("type").getAsString().equals("sell")){
-                                            sender.sendMessage(langRes.lang.skShopMessageType+langRes.lang.error);
-                                            sender.sendMessage(langRes.lang.skShopDetails+langRes.lang.skShopTypeError);
-                                            return;
-                                        }
-                                        BigDecimal itemPrice = itemData.get("price").getAsBigDecimal();
-                                        BigDecimal total = itemPrice.multiply(BigDecimal.valueOf((int) args.get(1)));
-
-                                        if (userMoney.compareTo(total) < 0){
-                                            sender.sendMessage(langRes.lang.skShopMessageType+langRes.lang.error);
-                                            sender.sendMessage(langRes.lang.skShopDetails+langRes.lang.skShopMoneyNotEnoughError);
-                                            return;
-                                        }
-                                        ItemStack item = ItemUtils.dataToItem(itemData.get("itemData").getAsString());
-                                        int amount = ((int) args.get(1));
-                                        item.setAmount(amount);
-                                        ItemStack left = ((Player) sender).getInventory().addItem(item).get(0);
-                                        if (left != null){
-                                            amount -= left.getAmount();
-                                        }
-                                        if (amount == 0){
-                                            sender.sendMessage(langRes.lang.skShopMessageType+langRes.lang.error);
-                                            sender.sendMessage(langRes.lang.skShopDetails+langRes.lang.skShopBackpackFullError);
-                                            return;
-                                        }
-                                        item.setAmount(64);
+                                        SkShop.ShopInfo shopInfo = SkShop.buyItem(essPlayer, (String) args.get(0), (int) args.get(1));
                                         sender.sendMessage(langRes.lang.skShopTradeType+langRes.lang.buy);
-                                        sender.spigot().sendMessage(new ComponentBuilder().append(langRes.lang.skShopItemName).append(Chat.createAsItemTag(item)).create());
-                                        sender.sendMessage(langRes.lang.skShopAmount+amount);
-
-                                        BigDecimal totalPrice = BigDecimal.valueOf(amount).multiply(itemPrice);
-                                        essPlayer.setMoney(essPlayer.getMoney().subtract(totalPrice));
-                                        sender.sendMessage(langRes.lang.skShopTotal+totalPrice);
+                                        sender.sendMessage(Component.text(langRes.lang.skShopItemName).append(Chat.createAsItemTag(shopInfo.item)));
+                                        sender.sendMessage(langRes.lang.skShopAmount+shopInfo.amount);
                                         sendEmbed(
-                                                sender.getName(),
+                                                (Player) sender,
                                                 langRes.lang.buy,
-                                                item.getType().toString().toLowerCase(),
-                                                itemPrice.toString(),
-                                                Integer.toString(amount),
-                                                totalPrice.toString()
+                                                getItemName(shopInfo.item),
+                                                Float.toString(shopInfo.price),
+                                                Integer.toString(shopInfo.amount),
+                                                Float.toString(shopInfo.total)
                                         );
-
-                                    }
-                                    catch (Exception e){
-                                        sender.sendMessage(langRes.lang.skShopMessageType+langRes.lang.error);
-                                        sender.sendMessage(langRes.lang.skShopDetails+langRes.lang.skShopItemFsError);
+                                    } catch (MoneyNotEnoughException ignored) {
+                                        sender.sendMessage(langRes.lang.skShopMessageType + langRes.lang.error);
+                                        sender.sendMessage(langRes.lang.skShopDetails + langRes.lang.skShopMoneyNotEnoughError);
+                                    } catch (Exception e) {
+                                        sender.sendMessage(langRes.lang.skShopMessageType + langRes.lang.error);
+                                        sender.sendMessage(langRes.lang.skShopDetails + langRes.lang.skShopItemFsError);
                                     }
                                 })
                 )
@@ -152,9 +129,7 @@ public class use_skshop {
                                 .executes((sender,args)->{
                                     sender.sendMessage(langRes.lang.skShopHeader);
                                     int amount = 0;
-                                    if (((String)args.get(1)).equals("all")){
-                                        amount = 2304;
-                                    }
+                                    if (((String)args.get(1)).equals("all")) amount = -1;
                                     else if (((String)args.get(1)).equals("setAmount") && !(Objects.isNull(args.get(2)))){
                                         amount = (int) args.get(2);
                                     }
@@ -163,48 +138,29 @@ public class use_skshop {
                                         sender.sendMessage(langRes.lang.skShopDetails+langRes.lang.skShopCmdArgError);
                                         return;
                                     }
-                                    File itemDataFile = Files.fileResolve(skshopData,((String)args.get(0))+".json");
-                                    if (!itemDataFile.exists()){
-                                        sender.sendMessage(langRes.lang.skShopMessageType+langRes.lang.error);
-                                        sender.sendMessage(langRes.lang.skShopDetails+langRes.lang.skShopItemDNEError);
-                                        return;
-                                    }
-                                    try {
-                                        JsonObject itemData = Files.readFileToJson(itemDataFile);
-                                        if (itemData.get("type").getAsString().equals("buy")){
-                                            sender.sendMessage(langRes.lang.skShopMessageType+langRes.lang.error);
-                                            sender.sendMessage(langRes.lang.skShopDetails+langRes.lang.skShopTypeError);
-                                            return;
-                                        }
-                                        BigDecimal itemPrice = itemData.get("price").getAsBigDecimal();
-                                        ItemStack item = ItemUtils.dataToItem(itemData.get("itemData").getAsString());
-                                        item.setAmount(amount);
-                                        HashMap<Integer, ItemStack> left = ((Player) sender).getInventory().removeItem(item);
-                                        if (!left.isEmpty()){
-                                            amount -= left.get(0).getAmount();
-                                        }
-                                        if (amount == 0){
-                                            sender.sendMessage(langRes.lang.skShopMessageType+langRes.lang.error);
-                                            sender.sendMessage(langRes.lang.skShopDetails+langRes.lang.skShopItemNotEnoughError);
-                                            return;
-                                        }
-                                        User essPlayer = ess.getUser((Player) sender);
-                                        BigDecimal userMoney = essPlayer.getMoney();
-                                        BigDecimal total = itemPrice.multiply(BigDecimal.valueOf(amount));
-                                        essPlayer.setMoney(userMoney.add(total));
-                                        item.setAmount(64);
-                                        sender.sendMessage(langRes.lang.skShopTradeType+langRes.lang.sell);
-                                        sender.spigot().sendMessage(new ComponentBuilder().append(langRes.lang.skShopItemName).append(Chat.createAsItemTag(item)).create());
-                                        sender.sendMessage(langRes.lang.skShopAmount+amount);
-                                        sender.sendMessage(langRes.lang.skShopTotal+total);
-                                        sender.sendMessage(langRes.lang.skShopBal+essPlayer.getMoney());
-                                        sendEmbed(sender.getName(),langRes.lang.sell,item.getType().toString().toLowerCase(),itemPrice.toString(),Integer.toString(amount),total.toString());
-                                    }
-                                    catch (Exception e){
-                                        sender.sendMessage(langRes.lang.skShopMessageType+langRes.lang.error);
-                                        sender.sendMessage(langRes.lang.skShopDetails+langRes.lang.skShopItemFsError);
-                                    }
+                                    User essPlayer = ess.getUser((Player) sender);
 
+                                    try {
+                                        SkShop.ShopInfo shopInfo = SkShop.sellItem(essPlayer, (String) args.get(0), amount);
+                                        sender.sendMessage(Component.text(langRes.lang.skShopItemName).append(Chat.createAsItemTag(shopInfo.item)));
+                                        sender.sendMessage(langRes.lang.skShopAmount+shopInfo.amount);
+                                        sender.sendMessage(langRes.lang.skShopTotal+shopInfo.total);
+                                        sender.sendMessage(langRes.lang.skShopBal+essPlayer.getMoney().setScale(2, RoundingMode.HALF_EVEN));
+                                        sendEmbed(
+                                                (Player) sender,
+                                                langRes.lang.sell,
+                                                getItemName(shopInfo.item),
+                                                Float.toString(shopInfo.price),
+                                                Integer.toString(shopInfo.amount),
+                                                Float.toString(shopInfo.total)
+                                        );
+                                    } catch (ItemNotEnoughException ignored) {
+                                        sender.sendMessage(langRes.lang.skShopMessageType + langRes.lang.error);
+                                        sender.sendMessage(langRes.lang.skShopDetails + langRes.lang.skShopItemNotEnoughError);
+                                    } catch (Exception e) {
+                                        sender.sendMessage(langRes.lang.skShopMessageType + langRes.lang.error);
+                                        sender.sendMessage(langRes.lang.skShopDetails + langRes.lang.skShopItemFsError);
+                                    }
                                 })
                 )
                 .register();

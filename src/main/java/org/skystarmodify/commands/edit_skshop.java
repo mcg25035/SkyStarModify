@@ -5,15 +5,13 @@ import com.google.gson.JsonObject;
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.CommandPermission;
 import dev.jorel.commandapi.arguments.FloatArgument;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.skystarmodify.Chat;
-import org.skystarmodify.Files;
-import org.skystarmodify.LangResource;
-import org.skystarmodify.SkyStarModify;
-import org.itemutils.ItemUtils;
+import org.skystarmodify.*;
 import net.md_5.bungee.api.chat.*;
+import org.skystarmodify.exceptions.PriceException;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,8 +32,6 @@ public class edit_skshop {
             }
         }
 
-        Essentials ess = (Essentials) Bukkit.getServer().getPluginManager().getPlugin("Essentials");
-
         new CommandAPICommand("edit_skshop")
                 .withPermission(CommandPermission.OP)
                 .withSubcommand(new CommandAPICommand("buy")
@@ -44,37 +40,26 @@ public class edit_skshop {
                             sender.sendMessage(langRes.lang.skShopHeader);
                             sender.sendMessage(langRes.lang.skShopActionType+langRes.lang.skShopUpstore);
                             ItemStack handItem = ((Player)sender).getInventory().getItemInMainHand();
-                            String itemID = handItem.getType().toString().toLowerCase();
-                            String suffix = "";
-                            String itemData = ItemUtils.ItemToData(handItem);
-                            int i = 0;
-                            while (Files.fileResolve(skshopData,itemID+suffix+".json").exists()){
-                                i+=1;
-                                suffix = Integer.toString(i+1);
-                            }
-                            File itemFile = Files.fileResolve(skshopData,itemID+suffix+".json");
                             Float price = (Float) args.get(0);
-                            if (price == null || price <= 0 ){
+                            try{
+                                if (price == null) throw new PriceException("Price must not be null");
+                                SkShop.upstoreBuy(handItem, price);
+                            }
+                            catch (PriceException ignored) {
                                 sender.sendMessage(langRes.lang.skShopMessageType+langRes.lang.error);
                                 sender.sendMessage(langRes.lang.skShopDetails+langRes.lang.skShopSinglePriceError);
-
                                 return;
-                            }
-                            try{
-                                JsonObject shopData = new JsonObject();
-                                shopData.addProperty("type","buy");
-                                shopData.addProperty("price",price);
-                                shopData.addProperty("itemData",itemData);
-                                Files.writeJsonToFile(itemFile,shopData);
-                                sender.sendMessage(langRes.lang.skShopTradeType+langRes.lang.buy);
-                                sender.spigot().sendMessage(new ComponentBuilder().append(langRes.lang.skShopItemName).append(Chat.createAsItemTag(handItem)).create());
-                                sender.sendMessage(langRes.lang.skShopSinglePrice+price);
                             }
                             catch (IOException e){
                                 sender.sendMessage(langRes.lang.skShopMessageType+langRes.lang.error);
                                 sender.sendMessage(langRes.lang.skShopDetails+langRes.lang.skUpstoreFsError);
                                 return;
                             }
+
+                            sender.sendMessage(langRes.lang.skShopTradeType+langRes.lang.buy);
+                            sender.sendMessage(Component.text(langRes.lang.skShopItemName).append(Chat.createAsItemTag(handItem)));
+                            sender.sendMessage(langRes.lang.skShopSinglePrice+price);
+
                         })
                 )
                 .withSubcommand(new CommandAPICommand("sell")
@@ -83,38 +68,25 @@ public class edit_skshop {
                             sender.sendMessage(langRes.lang.skShopHeader);
                             sender.sendMessage(langRes.lang.skShopActionType+langRes.lang.skShopUpstore);
                             ItemStack handItem = ((Player)sender).getInventory().getItemInMainHand();
-                            String itemID = handItem.getType().toString();
-                            String suffix = "";
-                            String itemData = ItemUtils.ItemToData(handItem);
-                            int i = 0;
-                            while (Files.fileResolve(skshopData,itemID+suffix+".json").exists()){
-                                i+=1;
-                                suffix = Integer.toString(i+1);
-                            }
-                            File itemFile = Files.fileResolve(skshopData,itemID+suffix+".json");
                             Float price = (Float) args.get(0);
-                            if (price == null || price <= 0 ){
+                            try{
+                                if (price == null) throw new PriceException("Price must not be null");
+                                SkShop.upstoreSell(handItem, price);
+                            }
+                            catch (PriceException ignored) {
                                 sender.sendMessage(langRes.lang.skShopMessageType+langRes.lang.error);
                                 sender.sendMessage(langRes.lang.skShopDetails+langRes.lang.skShopSinglePriceError);
-
                                 return;
-                            }
-                            try{
-                                JsonObject shopData = new JsonObject();
-                                shopData.addProperty("type","sell");
-                                shopData.addProperty("price",price);
-                                shopData.addProperty("itemData",itemData);
-                                Files.writeJsonToFile(itemFile,shopData);
-
-                                sender.sendMessage(langRes.lang.skShopTradeType+langRes.lang.sell);
-                                sender.spigot().sendMessage(new ComponentBuilder().append(langRes.lang.skShopItemName).append(Chat.createAsItemTag(handItem)).create());
-                                sender.sendMessage(langRes.lang.skShopSinglePrice+price);
                             }
                             catch (IOException e){
                                 sender.sendMessage(langRes.lang.skShopMessageType+langRes.lang.error);
                                 sender.sendMessage(langRes.lang.skShopDetails+langRes.lang.skUpstoreFsError);
                                 return;
                             }
+
+                            sender.sendMessage(langRes.lang.skShopTradeType+langRes.lang.sell);
+                            sender.sendMessage(Component.text(langRes.lang.skShopItemName).append(Chat.createAsItemTag(handItem)));
+                            sender.sendMessage(langRes.lang.skShopSinglePrice+price);
                         })
                 )
                 .register();

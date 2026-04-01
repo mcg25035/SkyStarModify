@@ -9,12 +9,7 @@ import java.util.logging.Logger;
 public class LangResource {
 
     public class dict {
-        public String wrapName;
         public String price;
-        public String warpAlreadyExist;
-        public String warpMoneyNotEnough;
-        public String warpCreateSuccessfully;
-        public String warpUnknownError;
         public String error;
         public String skShopHeader;
         public String skShopDetails;

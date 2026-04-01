@@ -10,34 +10,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c5677384-c27e-4e1c-8d98-820156f32ceb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/SkyStarModify_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/Spigot_Debug.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/skystarmodify/SkShop.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/skystarmodify/exceptions/ItemNotEnoughException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/skystarmodify/exceptions/MoneyNotEnoughException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/skystarmodify/exceptions/PriceException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/skystarmodify/exceptions/ShopFileParseException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/skystarmodify/exceptions/WrongShopTypeException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/main.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/SkyStarModify_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/SkyStarModify_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/skystarmodify/Chat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/skystarmodify/Chat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/skystarmodify/commands/edit_skshop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/skystarmodify/commands/edit_skshop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/skystarmodify/commands/use_skshop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/skystarmodify/commands/use_skshop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/SkyStarModify-0.2.3.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/SkyStarModify-0.2.3.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/skystarmodify/Chat.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/skystarmodify/Chat.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/skystarmodify/LangResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/skystarmodify/LangResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/skystarmodify/commands/buywarp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/lang/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lang/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/lang/zh_tw.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lang/zh_tw.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lang/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lang/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lang/zh_tw.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lang/zh_tw.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/skystarmodify/LangResource$dict.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/skystarmodify/LangResource$dict.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/skystarmodify/SkyStarModify.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/skystarmodify/SkyStarModify.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/skystarmodify/commands/buywarp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/skystarmodify/commands/buywarp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/skystarmodify/commands/edit_skshop.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/skystarmodify/commands/edit_skshop.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/skystarmodify/commands/use_skshop.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/skystarmodify/commands/use_skshop.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/skystarmodify/LangResource.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/skystarmodify/LangResource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/skystarmodify/commands/buywarp.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/original-SkyStarModify-0.2.3.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-SkyStarModify-0.2.3.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,8 +39,33 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="TAG">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="e" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;TimmyYue&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/TimmyYue/SkyStarModify.git&quot;,
+    &quot;accountId&quot;: &quot;378da9bb-1f3d-4fcd-a96f-6097f4608d17&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 1
@@ -68,11 +80,12 @@
     "JAR Application.Spigot Debug.executor": "Debug",
     "Maven.SkyStarModify [package].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/codingbear/SkyStarTest/plugins",
-    "project.structure.last.edited": "Project",
+    "last_opened_file_path": "/Users/hsutimmy/IdeaProjects/SkyStarModify",
+    "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.23828125",
     "project.structure.side.proportion": "0.2567325",
     "settings.editor.selected.configurable": "editor.preferences.fonts.default"

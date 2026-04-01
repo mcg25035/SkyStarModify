@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SkyStarModify.iml" filepath="$PROJECT_DIR$/SkyStarModify.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SkyStarModify.iml" filepath="$PROJECT_DIR$/.idea/SkyStarModify.iml" />
     </modules>
   </component>
 </project>
